@@ -1,6 +1,9 @@
+import Header from '../component/Header';
 function Overivew() {
     return (
-        <div></div>
+        <div>
+            <Header/>
+        </div>
     );
 }
 
