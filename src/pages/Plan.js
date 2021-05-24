@@ -127,7 +127,7 @@ const Button = styled.button`
 `
 
 function Plan() {
-    const {todos, date} = useSelector((plan) => ({todos:plan.todos, date:plan.date}));
+    const {todos, date, url} = useSelector((plan) => ({todos:plan.todos, date:plan.date, url:plan.profile}));
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -143,7 +143,7 @@ function Plan() {
             <Header></Header>
             <Row>
                 <Profile>
-                    <ProfileImage ></ProfileImage>
+                    <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
                     <h3 style={{ color: "#24292e" }}>25 Friends</h3>

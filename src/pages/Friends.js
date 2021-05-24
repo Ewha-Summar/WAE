@@ -1,6 +1,9 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
+import {useSelector, useDispatch} from 'react-redux';
+import handleTodos, {unfriend} from '../modules/todos'; 
+
 const Row = styled.div`
     display:flex;
     flex-direction: row;
@@ -35,10 +38,10 @@ const ProfileImage = styled.image`
 margin-top: 20px;
 border: 2px solid #646568;
 border-radius: 50%;
-height: 180px;
-width: 180px;
+height: ${(props) => props.height || 180}px;
+width: ${(props) => props.width || 180}px;
 background: url(${(props) => props.src});
-background-size: 180px;
+background-size: ${(props) => props.pictureSize || 180}px;
 `
 const Group = styled.div`
 margin-top: 20px;
@@ -69,6 +72,21 @@ const GrayButton = styled.button`
   padding-right:20px;
   border-radius:10px;
 `
+const Button = styled.button`
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    background: ${props => props.background1 || "#01784A"};
+    color:white;
+    border-radius:10px;
+    margin-top: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: 0.1s background ease;
+    &:hover{
+        background: ${props => props.background2 || "#239A6C"};
+    }
+`
 const MenuButton = styled.button`
   margin:30px;
   background: ${props => props.theme.default || '#F8F9F9'};
@@ -82,16 +100,11 @@ const MenuButton = styled.button`
   font-size: 25px;
   font-weight: bold;
 `
-const Card = styled.div`
-border: 2px solid #646568;
-border-radius: 10px;
-box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
+const FriendList = styled.div`
 display: flex;
 flex-direction: column;
 margin-left: 40px;
-width:350px;
-height:100px;
-margin-bottom: 50px;
+width: 100%;
 `
 const Warn = styled.div`
 border: 2px solid red;
@@ -108,12 +121,20 @@ margin-bottom: 50px;
 
 function Friends() {
     const history = useHistory();
+    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const dispatch = useDispatch();
+    console.log(friends);
+    console.log(url);
+    const unFriend = (id) => {
+        dispatch(unfriend(id));
+    }
+
     return (
         <div>
             <Header></Header>
             <Row>
                 <Profile>
-                    <ProfileImage ></ProfileImage>
+                    <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
                     <h3 style={{ color: "#24292e" }}>25 Friends</h3>
@@ -132,8 +153,20 @@ function Friends() {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
                     <Line width={850} />
-
-
+                    <FriendList>
+                    {friends?.map((friend) => {
+                        return(
+                            <div style={{display:"flex", flexDirection:"row", marginBottom:"50px"}}>
+                                <ProfileImage src = {friend.profile} height="100" width="100" pictureSize="100" style={{marginLeft:"40px"}}/>
+                                <h1 style={{margin: "40px auto auto 30px"}}>{friend.name}</h1>
+                                <div style={{display:"flex", flexDirection:"row"}}>
+                                    <Button onClick={() => history.push(`/ChatWindow/${friend.id}`)}>chatting</Button>
+                                    <Button background1="#CC3333" background2="#AA0000" onClick={() => unFriend(friend.id)}>unfriend</Button>
+                                </div>    
+                            </div>
+                        )
+                    })}
+                </FriendList>
                 </Content>
             </Row>
         </div>

@@ -1,6 +1,9 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
+import {useSelector, useDispatch} from 'react-redux';
+import handleTodos, {unfriend } from '../modules/todos'; 
+
 const Row = styled.div`
     display:flex;
     flex-direction: row;
@@ -35,10 +38,10 @@ const ProfileImage = styled.image`
 margin-top: 20px;
 border: 2px solid #646568;
 border-radius: 50%;
-height: 180px;
-width: 180px;
+height: ${(props) => props.height || 180}px;
+width: ${(props) => props.width || 180}px;
 background: url(${(props) => props.src});
-background-size: 180px;
+background-size: ${(props) => props.pictureSize || 180}px;
 `
 const Group = styled.div`
 margin-top: 20px;
@@ -104,15 +107,43 @@ width:750px;
 height:100px;
 margin-bottom: 50px;
 `
+const FriendList = styled.div`
+display: flex;
+flex-direction: column;
+margin-left: 40px;
+width: 100%;
+`
+
+const FriendName = styled.h1`
+    margin: 25px auto auto 30px;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+`
+
+const History = styled.div`
+display: inline-block;
+overflow:hidden;
+white-space:nowrap;
+width:400px;
+text-overflow:ellipsis;
+margin-left:60px; 
+margin-top:10px;
+font-size: 20px;
+`
 
 function Chatting() {
     const history = useHistory();
+    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const dispatch = useDispatch();
+
     return (
         <div>
             <Header></Header>
             <Row>
                 <Profile>
-                    <ProfileImage ></ProfileImage>
+                    <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
                     <h3 style={{ color: "#24292e" }}>25 Friends</h3>
@@ -131,8 +162,23 @@ function Chatting() {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
                     <Line width={850} />
-
-
+                    <FriendList>
+                    {friends?.map((friend) => {
+                        return(
+                            <div style={{display:"flex", flexDirection:"row", marginBottom:"50px"}}>
+                                <ProfileImage src = {friend.profile} height="100" width="100" pictureSize="100" style={{marginLeft:"40px"}}/>
+                                <div>
+                                <FriendName onClick={() => history.push(`/chatwindow/${friend.id}`)}>{friend.name}</FriendName>
+                                <div style={{display:"flex", flexDirection:"row"}}>
+                                <History>{friend.chattings[friend.chattings.length-1].content}</History>
+                                <p style={{marginLeft:"60px", textAlign:"right"}}>{friend.chattings[friend.chattings.length-1].date}<br/>
+                                {friend.chattings[friend.chattings.length-1].time}</p>
+                                </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </FriendList>
                 </Content>
             </Row>
         </div>

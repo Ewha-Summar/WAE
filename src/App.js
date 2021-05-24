@@ -6,6 +6,7 @@ import Overview from "./pages/Overview"
 import Friends from "./pages/Friends"
 import Chatting from "./pages/Chatting"
 import AddTodo from "./pages/AddTodo"
+import ChatWindow from "./pages/ChatWindow"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/chatting" component={Chatting} />
         <Route exact path="/alarm" component={Alram} />
         <Route exact path="/addTodo" component={AddTodo}/>
+        <Route exact path="/chatwindow/:friend_id" component={ChatWindow}/>
       </Switch>
     </Router>
   );
