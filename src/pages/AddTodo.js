@@ -69,8 +69,8 @@ const AddTodoList = ({match}) => {
         content:'',
         date:'',
         place:'',
-        starttime:'',
-        endtime:'',
+        starttime:'12:00',
+        endtime:'12:00',
         importance:0,
         friends:{}
     });
@@ -81,7 +81,6 @@ const AddTodoList = ({match}) => {
             ...todo,
             [name]: value
         });
-        console.log(todo);
     }
 
     const onStartTimeChange = async (e) => {
@@ -119,9 +118,6 @@ const AddTodoList = ({match}) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         dispatch(insert(todo));
-        console.log("제출");
-        console.log(todos);
-        console.log(date);
         history.push("/plan");
     }
 
@@ -164,7 +160,7 @@ const AddTodoList = ({match}) => {
                 <Name width="130">Friends</Name>
                 <Input></Input>
             </Item>
-            <Button style={{margin:"30px 10px auto auto"}}>완료</Button>
+            <Button style={{margin:"30px 10px auto auto"}}>Finish</Button>
             </List>
         </Wrapper>
       </div>  

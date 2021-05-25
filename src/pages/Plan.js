@@ -131,6 +131,16 @@ function Plan() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth()+1)).slice(-2);
+    let date1 = ("0" + today.getDate()).slice(-2);
+    let hour = today.getHours();
+    let minute = today.getMinutes();
+    let ymd = year+"-"+month+"-"+date1;
+    let hm = hour+":"+minute;
+    console.log(ymd);
+    console.log(date);
     const deleteTodo = (id) => {
         dispatch(remove(id));
         console.log(todos);
@@ -164,8 +174,11 @@ function Plan() {
                     <Line width={850} />
                     <Button style={{width:"150px"}} onClick={() => history.push("/addTodo")}>+Add Plan</Button>
                     {date?.map((day, i) => {
-                        return(
-                            <div>
+                        console.log(day);
+                        console.log(ymd);
+                        if(ymd > day) return null;
+                        else return(
+                            <div>                  
                             <h1>&emsp;{day}</h1>
                             <LittleRow>
                                 <Card>
@@ -174,7 +187,12 @@ function Plan() {
                                             return(
                                                 <div style={{display:"flex", flexDirection:"column"}}>
                                                 <div>
+                                                    {hm <= todo.endtime 
+                                                    ?
                                                     <h2 style={{display:"inline-block"}}>{todo.content}</h2>
+                                                    :
+                                                    <h2 style={{display:"inline-block", textDecoration:"line-through", color:"gray"}}>{todo.content}</h2>
+                                                    }
                                                     <div style={{display:"inline-block", marginLeft:"50px"}}>
                                                     {[...Array(parseInt(todo.importance))].map((n, i) => {
                                                         return(<IoStar/>)
@@ -183,14 +201,19 @@ function Plan() {
                                                     </div>
                                                 </div>
                                                 <div style={{display:"flex", flexDirection:"row"}}>
+                                                    {hm <= todo.endtime 
+                                                    ?
                                                     <p style={{fontSize:"20px", display:"inline-block"}}>time : {todo.starttime}-{todo.endtime}</p>
+                                                    :
+                                                    <p style={{fontSize:"20px", display:"inline-block", textDecoration:"line-through", color:"gray"}}>time : {todo.starttime}-{todo.endtime}</p>
+                                                    }
                                                     <Button background1="#CC3333" background2="#AA0000"style={{width:"100px", height:"40px", display:"inline-block"}} onClick={() => deleteTodo(todo.id)}>Delete</Button>
                                                 </div>
                                                 </div>
                                             )
                                         }
                                     })}
-                                </Card>
+                                    </Card>
                             </LittleRow>
                             </div>
                         );
