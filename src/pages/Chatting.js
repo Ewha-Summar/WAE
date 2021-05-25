@@ -1,8 +1,8 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import {useSelector, useDispatch} from 'react-redux';
-import handleTodos, {unfriend } from '../modules/todos'; 
+import { useSelector, useDispatch } from 'react-redux';
+import handleTodos, { unfriend } from '../modules/todos';
 
 const Row = styled.div`
     display:flex;
@@ -135,7 +135,7 @@ font-size: 20px;
 
 function Chatting() {
     const history = useHistory();
-    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     const dispatch = useDispatch();
 
     return (
@@ -163,22 +163,22 @@ function Chatting() {
                     </LittleRow>
                     <Line width={850} />
                     <FriendList>
-                    {friends?.map((friend) => {
-                        return(
-                            <div style={{display:"flex", flexDirection:"row", marginBottom:"50px"}}>
-                                <ProfileImage src = {friend.profile} height="100" width="100" pictureSize="100" style={{marginLeft:"40px"}}/>
-                                <div>
-                                <FriendName onClick={() => history.push(`/chatwindow/${friend.id}`)}>{friend.name}</FriendName>
-                                <div style={{display:"flex", flexDirection:"row"}}>
-                                <History>{friend.chattings[friend.chattings.length-1].content}</History>
-                                <p style={{marginLeft:"60px", textAlign:"right"}}>{friend.chattings[friend.chattings.length-1].date}<br/>
-                                {friend.chattings[friend.chattings.length-1].time}</p>
+                        {friends?.map((friend) => {
+                            return (
+                                <div style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}>
+                                    <ProfileImage src={friend.profile} height="100" width="100" pictureSize="100" style={{ marginLeft: "40px" }} />
+                                    <div>
+                                        <FriendName onClick={() => history.push(`/chatwindow/${friend.id}`)}>{friend.name}</FriendName>
+                                        <div style={{ display: "flex", flexDirection: "row" }}>
+                                            <History>{friend.chattings[friend.chattings.length - 1].content}</History>
+                                            <p style={{ marginLeft: "60px", textAlign: "right" }}>{friend.chattings[friend.chattings.length - 1].date}<br />
+                                                {friend.chattings[friend.chattings.length - 1].time}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </FriendList>
+                            )
+                        })}
+                    </FriendList>
                 </Content>
             </Row>
         </div>

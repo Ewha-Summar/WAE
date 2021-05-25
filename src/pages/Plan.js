@@ -1,10 +1,10 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import {useState} from 'react';
+import { useState } from 'react';
 import { IoStarHalf, IoStar } from "react-icons/io5";
-import {useSelector, useDispatch} from 'react-redux';
-import handleTodos, { remove } from '../modules/todos'; 
+import { useSelector, useDispatch } from 'react-redux';
+import handleTodos, { remove } from '../modules/todos';
 
 const Row = styled.div`
     display:flex;
@@ -101,17 +101,6 @@ svg{
     font-size:20px;
 }
 `
-const Warn = styled.div`
-border: 2px solid red;
-border-radius: 10px;
-box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
-display: flex;
-flex-direction: column;
-margin-left: 40px;
-width:750px;
-height:100px;
-margin-bottom: 50px;
-`
 const Button = styled.button`
     width: 70px;
     font-size: 20px;
@@ -127,18 +116,18 @@ const Button = styled.button`
 `
 
 function Plan() {
-    const {todos, date, url} = useSelector((plan) => ({todos:plan.todos, date:plan.date, url:plan.profile}));
+    const { todos, date, url } = useSelector((plan) => ({ todos: plan.todos, date: plan.date, url: plan.profile }));
     const history = useHistory();
     const dispatch = useDispatch();
 
     let today = new Date();
     let year = today.getFullYear();
-    let month = ("0" + (today.getMonth()+1)).slice(-2);
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
     let date1 = ("0" + today.getDate()).slice(-2);
     let hour = ("0" + today.getHours()).slice(-2);
-    let minute = ("0"+ today.getMinutes()).slice(-2);
-    let ymd = year+"-"+month+"-"+date1;
-    let hm = hour+":"+minute;
+    let minute = ("0" + today.getMinutes()).slice(-2);
+    let ymd = year + "-" + month + "-" + date1;
+    let hm = hour + ":" + minute;
     console.log(ymd);
     console.log(date);
     const deleteTodo = (id) => {
@@ -172,51 +161,51 @@ function Plan() {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
                     <Line width={850} />
-                    <Button style={{width:"150px"}} onClick={() => history.push("/addTodo")}>+Add Plan</Button>
+                    <Button style={{ width: "150px" }} onClick={() => history.push("/addTodo")}>+Add Plan</Button>
                     {date?.map((day, i) => {
                         console.log(day);
                         console.log(ymd);
-                        if(ymd > day) return null;
-                        else return(
-                            <div>                  
-                            <h1>&emsp;{day}</h1>
-                            <LittleRow>
-                                <Card>
-                                    {todos?.map((todo, i) => {
-                                        if(todo.date===day){
-                                            console.log(todo.endtime);
-                                            console.log(hm);
-                                            return(
-                                                <div style={{display:"flex", flexDirection:"column"}}>
-                                                <div>
-                                                    {hm > todo.endtime && ymd ===todo.date
-                                                    ?
-                                                    <h2 style={{display:"inline-block", textDecoration:"line-through", color:"gray"}}>{todo.content}</h2>
-                                                    :
-                                                    <h2 style={{display:"inline-block"}}>{todo.content}</h2>
-                                                    }
-                                                    <div style={{display:"inline-block", marginLeft:"50px"}}>
-                                                    {[...Array(parseInt(todo.importance))].map((n, i) => {
-                                                        return(<IoStar/>)
-                                                    })}
-                                                    {todo.importance !== parseInt(todo.importance) ? <IoStarHalf/> : null}
+                        if (ymd > day) return null;
+                        else return (
+                            <div>
+                                <h1>&emsp;{day}</h1>
+                                <LittleRow>
+                                    <Card>
+                                        {todos?.map((todo, i) => {
+                                            if (todo.date === day) {
+                                                console.log(todo.endtime);
+                                                console.log(hm);
+                                                return (
+                                                    <div style={{ display: "flex", flexDirection: "column" }}>
+                                                        <div>
+                                                            {hm > todo.endtime && ymd === todo.date
+                                                                ?
+                                                                <h2 style={{ display: "inline-block", textDecoration: "line-through", color: "gray" }}>{todo.content}</h2>
+                                                                :
+                                                                <h2 style={{ display: "inline-block" }}>{todo.content}</h2>
+                                                            }
+                                                            <div style={{ display: "inline-block", marginLeft: "50px" }}>
+                                                                {[...Array(parseInt(todo.importance))].map((n, i) => {
+                                                                    return (<IoStar />)
+                                                                })}
+                                                                {todo.importance !== parseInt(todo.importance) ? <IoStarHalf /> : null}
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ display: "flex", flexDirection: "row" }}>
+                                                            {hm > todo.endtime && ymd === todo.date
+                                                                ?
+                                                                <p style={{ fontSize: "20px", display: "inline-block", textDecoration: "line-through", color: "gray" }}>time : {todo.starttime}-{todo.endtime}</p>
+                                                                :
+                                                                <p style={{ fontSize: "20px", display: "inline-block" }}>time : {todo.starttime}-{todo.endtime}</p>
+                                                            }
+                                                            <Button background1="#CC3333" background2="#AA0000" style={{ width: "100px", height: "40px", display: "inline-block" }} onClick={() => deleteTodo(todo.id)}>Delete</Button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div style={{display:"flex", flexDirection:"row"}}>
-                                                    {hm > todo.endtime && ymd===todo.date 
-                                                    ?
-                                                    <p style={{fontSize:"20px", display:"inline-block", textDecoration:"line-through", color:"gray"}}>time : {todo.starttime}-{todo.endtime}</p>
-                                                    :
-                                                    <p style={{fontSize:"20px", display:"inline-block"}}>time : {todo.starttime}-{todo.endtime}</p>
-                                                    }
-                                                    <Button background1="#CC3333" background2="#AA0000"style={{width:"100px", height:"40px", display:"inline-block"}} onClick={() => deleteTodo(todo.id)}>Delete</Button>
-                                                </div>
-                                                </div>
-                                            )
-                                        }
-                                    })}
+                                                )
+                                            }
+                                        })}
                                     </Card>
-                            </LittleRow>
+                                </LittleRow>
                             </div>
                         );
                     })}
