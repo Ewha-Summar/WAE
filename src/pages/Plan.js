@@ -187,11 +187,11 @@ function Plan() {
                                             return(
                                                 <div style={{display:"flex", flexDirection:"column"}}>
                                                 <div>
-                                                    {hm <= todo.endtime 
+                                                    {hm > todo.endtime && ymd ===todo.date
                                                     ?
-                                                    <h2 style={{display:"inline-block"}}>{todo.content}</h2>
-                                                    :
                                                     <h2 style={{display:"inline-block", textDecoration:"line-through", color:"gray"}}>{todo.content}</h2>
+                                                    :
+                                                    <h2 style={{display:"inline-block"}}>{todo.content}</h2>
                                                     }
                                                     <div style={{display:"inline-block", marginLeft:"50px"}}>
                                                     {[...Array(parseInt(todo.importance))].map((n, i) => {
@@ -201,11 +201,11 @@ function Plan() {
                                                     </div>
                                                 </div>
                                                 <div style={{display:"flex", flexDirection:"row"}}>
-                                                    {hm <= todo.endtime 
+                                                    {hm > todo.endtime && ymd===todo.date 
                                                     ?
-                                                    <p style={{fontSize:"20px", display:"inline-block"}}>time : {todo.starttime}-{todo.endtime}</p>
-                                                    :
                                                     <p style={{fontSize:"20px", display:"inline-block", textDecoration:"line-through", color:"gray"}}>time : {todo.starttime}-{todo.endtime}</p>
+                                                    :
+                                                    <p style={{fontSize:"20px", display:"inline-block"}}>time : {todo.starttime}-{todo.endtime}</p>
                                                     }
                                                     <Button background1="#CC3333" background2="#AA0000"style={{width:"100px", height:"40px", display:"inline-block"}} onClick={() => deleteTodo(todo.id)}>Delete</Button>
                                                 </div>
