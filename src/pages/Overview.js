@@ -1,7 +1,8 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import handleTodos, { remove } from '../modules/todos';
 
 const Row = styled.div`
     display:flex;
@@ -102,13 +103,17 @@ box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
 display: flex;
 flex-direction: column;
 margin-left: 40px;
-width:750px;
-height:100px;
+width:350px;
+height:130px;
 margin-bottom: 50px;
 `
 function Overivew() {
     const history = useHistory();
-    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
+    const { todos, date } = useSelector((plan) => ({ todos: plan.todos, date: plan.date }));
+    const dispatch = useDispatch();
+
+    console.log(todos);
     return (
         <div>
             <Header></Header>
@@ -135,12 +140,56 @@ function Overivew() {
                     <Line width={850} />
                     <h2 style={{ color: "#24292e", marginLeft: "10px" }}>Upcoming Schedule</h2>
                     <LittleRow>
-                        <Card></Card>
-                        <Card></Card>
-                        <Card></Card><Card></Card>
+                        {date?.map((day, i) => {
+                            return (<>
+                                {
+                                    todos?.map((todo, i) => {
+                                        if (i < 4 && todo.date === day) {
+                                            return (
+                                                <>
+                                                    <Card><h3>{"[" + todo.date + "] "} {todo.content}</h3> <div></div>
+                                                        <h4>{todo.place}</h4> <div>
+                                                        </div>
+                                                        {todo.starttime + "~" + todo.endtime}
+
+                                                    </Card>
+                                                </>
+                                            );
+                                        }
+
+                                    })
+                                }
+                            </>);
+
+
+                        })}
+
+
                     </LittleRow>
                     <h2 style={{ color: "red", marginLeft: "10px" }}>Alarm</h2>
-                    <Warn></Warn>
+                    <LittleRow>
+                        {date?.map((day, j) => {
+                            return (<>
+                                {
+                                    todos?.map((todo, i) => {
+                                        if (j < 1 && todo.date === day) {
+                                            return (
+                                                <Warn>
+                                                    <h2 style={{ color: "black" }}>{"[" + todo.date + "] "} {todo.content}</h2> <div></div>
+                                                    <h3>{todo.place}</h3> <div>
+                                                    </div>
+                                                    {todo.starttime + "~" + todo.endtime}
+                                                </Warn>
+                                            );
+                                        }
+
+                                    })
+                                }
+                            </>);
+
+
+                        })}
+                    </LittleRow>
 
                 </Content>
             </Row>
