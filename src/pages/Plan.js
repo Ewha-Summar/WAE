@@ -135,8 +135,8 @@ function Plan() {
     let year = today.getFullYear();
     let month = ("0" + (today.getMonth()+1)).slice(-2);
     let date1 = ("0" + today.getDate()).slice(-2);
-    let hour = today.getHours();
-    let minute = today.getMinutes();
+    let hour = ("0" + today.getHours()).slice(-2);
+    let minute = ("0"+ today.getMinutes()).slice(-2);
     let ymd = year+"-"+month+"-"+date1;
     let hm = hour+":"+minute;
     console.log(ymd);
@@ -184,6 +184,8 @@ function Plan() {
                                 <Card>
                                     {todos?.map((todo, i) => {
                                         if(todo.date===day){
+                                            console.log(todo.endtime);
+                                            console.log(hm);
                                             return(
                                                 <div style={{display:"flex", flexDirection:"column"}}>
                                                 <div>
