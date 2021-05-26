@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import logo from "../asset/logo.png"
 import alarm from "../asset/alram.PNG"
-import {useHistory} from "react-router-dom";
+import add from "../asset/add.PNG"
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
     background-color: #24292e;
@@ -22,12 +23,22 @@ const InputHere = styled.input`
  margin-left: 15px;
 outline:none;
 `
-const Button = styled.button`
+const Button1 = styled.button`
 position:absolute;
 top:15px;
-right:50px;
+right:60px;
     width:40px;
     height:40px;
+     border: none;
+    outline:none;
+    background-image:  url(${(props) => props.src});
+`
+const Button2 = styled.button`
+position:absolute;
+top:25px;
+right:30px;
+    width:25px;
+    height:25px;
      border: none;
     outline:none;
     background-image:  url(${(props) => props.src});
@@ -37,9 +48,10 @@ function Header() {
     const history = useHistory();
     return (
         <Wrapper>
-            <img src={logo} style={{ height: "200px", marginTop:"-63px" }} onClick={() => {history.push('/')}}/>
+            <img src={logo} style={{ height: "200px", marginTop: "-63px" }} onClick={() => { history.push('/') }} />
             <InputHere type="text" placeholder="Find Your Friends"></InputHere>
-            <Button src={alarm}></Button>
+            <Button1 src={alarm} onClick={() => history.push("/alarm")}></Button1>
+            <Button2 src={add} onClick={() => history.push("/addfriends")}></Button2>
         </Wrapper>
     );
 

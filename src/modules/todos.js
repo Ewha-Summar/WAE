@@ -2,6 +2,7 @@ const ADDPLAN = 'ADDPLAN';
 const DELETEPLAN = 'DELETEPLAN';
 const UNFRIEND = 'UNFRIEND';
 const SENDMESSAGE = "SENDMESSAGE";
+const ADDFRIEND = "ADDFRIEND"
 
 let id = 4;
 let friendId = 4;
@@ -13,6 +14,14 @@ export const insert = plan => ({
         id: id++
     },
     date: plan.date
+});
+
+export const addfriend = plan => ({
+    type: ADDFRIEND,
+    todo: {
+        ...plan,
+        id: friendId++
+    },
 });
 
 export const remove = id => ({
@@ -153,6 +162,12 @@ function handleTodos(state = plan, action) {
                 ...state,
                 date: tmpDate,
                 todos: tmpTodos
+            }
+        case ADDFRIEND:
+            const tmpFriends = state.friends.concat(action.todo);
+            return {
+                ...state,
+                friends: tmpFriends
             }
         case DELETEPLAN:
             let count = 0;

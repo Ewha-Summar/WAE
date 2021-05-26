@@ -131,13 +131,7 @@ function Alarm() {
                         <MenuButton onClick={() => history.push("/friends")}>Friends</MenuButton>
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
-                    <Line width={850} />
-                    <h2 style={{ color: "#24292e", marginLeft: "10px" }}>Upcoming Schedule</h2>
-                    <LittleRow>
-                        <Card></Card>
-                        <Card></Card>
-                        <Card></Card><Card></Card>
-                    </LittleRow>
+
                     <h2 style={{ color: "red", marginLeft: "10px" }}>Alarm</h2>
                     <Warn></Warn>
 

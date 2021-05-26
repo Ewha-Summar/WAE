@@ -1,8 +1,8 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import {useSelector, useDispatch} from 'react-redux';
-import handleTodos, {unfriend} from '../modules/todos'; 
+import { useSelector, useDispatch } from 'react-redux';
+import handleTodos, { unfriend } from '../modules/todos';
 
 const Row = styled.div`
     display:flex;
@@ -106,22 +106,12 @@ flex-direction: column;
 margin-left: 40px;
 width: 100%;
 `
-const Warn = styled.div`
-border: 2px solid red;
-border-radius: 10px;
-box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
-display: flex;
-flex-direction: column;
-margin-left: 40px;
-width:750px;
-height:100px;
-margin-bottom: 50px;
-`
+
 
 
 function Friends() {
     const history = useHistory();
-    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     const dispatch = useDispatch();
     console.log(friends);
     console.log(url);
@@ -154,19 +144,19 @@ function Friends() {
                     </LittleRow>
                     <Line width={850} />
                     <FriendList>
-                    {friends?.map((friend) => {
-                        return(
-                            <div style={{display:"flex", flexDirection:"row", marginBottom:"50px"}}>
-                                <ProfileImage src = {friend.profile} height="100" width="100" pictureSize="100" style={{marginLeft:"40px"}}/>
-                                <h1 style={{margin: "40px auto auto 30px"}}>{friend.name}</h1>
-                                <div style={{display:"flex", flexDirection:"row"}}>
-                                    <Button onClick={() => history.push(`/ChatWindow/${friend.id}`)}>chatting</Button>
-                                    <Button background1="#CC3333" background2="#AA0000" onClick={() => unFriend(friend.id)}>unfriend</Button>
-                                </div>    
-                            </div>
-                        )
-                    })}
-                </FriendList>
+                        {friends?.map((friend) => {
+                            return (
+                                <div style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}>
+                                    <ProfileImage src={friend.profile} height="100" width="100" pictureSize="100" style={{ marginLeft: "40px" }} />
+                                    <h1 style={{ margin: "40px auto auto 30px" }}>{friend.name}</h1>
+                                    <div style={{ display: "flex", flexDirection: "row" }}>
+                                        <Button onClick={() => history.push(`/ChatWindow/${friend.id}`)}>chatting</Button>
+                                        <Button background1="#CC3333" background2="#AA0000" onClick={() => unFriend(friend.id)}>unfriend</Button>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </FriendList>
                 </Content>
             </Row>
         </div>

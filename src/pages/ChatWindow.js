@@ -1,9 +1,9 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import {useSelector, useDispatch} from 'react-redux';
-import {useState, useRef, useEffect} from 'react';
-import handleTodos, {sendMessage} from '../modules/todos';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useRef, useEffect } from 'react';
+import handleTodos, { sendMessage } from '../modules/todos';
 
 const Row = styled.div`
     display:flex;
@@ -135,17 +135,7 @@ padding: 10px 10px;
 margin-bottom: 10px;
 text-align:left;
 `
-const Warn = styled.div`
-border: 2px solid red;
-border-radius: 10px;
-box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
-display: flex;
-flex-direction: column;
-margin-left: 40px;
-width:750px;
-height:100px;
-margin-bottom: 50px;
-`
+
 const InputHere = styled.textarea`
  width: 90%;
  height: 50px;
@@ -172,14 +162,14 @@ const Button = styled.button`
         background: ${props => props.background2 || "#239A6C"};
     }
 `
-const ChatWindow = ({match}) => {
-    const {friend_id} = match.params;
+const ChatWindow = ({ match }) => {
+    const { friend_id } = match.params;
     const history = useHistory();
-    const {friends, url} = useSelector((plan) => ({friends:plan.friends, url:plan.profile}));
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     const dispatch = useDispatch();
     const [friend] = friends?.filter(friend => friend.id == friend_id);
     const [mymessage, setMymessage] = useState('');
-    let date = friend.chattings[0].date;
+    let date = friend?.chattings[0]?.date;
     const scrollRef = useRef();
     const focus = useRef();
 
@@ -187,20 +177,20 @@ const ChatWindow = ({match}) => {
         setMymessage(e.target.value);
     }
 
-    const onKeyPress = (e) =>{
-        if(e.key=='Enter') onSend();
+    const onKeyPress = (e) => {
+        if (e.key == 'Enter') onSend();
     }
 
     const onSend = () => {
-        dispatch(sendMessage({id:friend_id, content:mymessage}));
+        dispatch(sendMessage({ id: friend_id, content: mymessage }));
         setMymessage('');
     }
 
-    useEffect (() => {
-        const {scrollHeight} = scrollRef.current
+    useEffect(() => {
+        const { scrollHeight } = scrollRef.current
         scrollRef.current.scrollTop = scrollHeight;
         focus.current.focus();
-    },[friend]);
+    }, [friend]);
 
     return (
         <div>
@@ -226,43 +216,44 @@ const ChatWindow = ({match}) => {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
                     <Line width={850} />
-                    <div style={{display:"flex", flexDirection:"row", marginBottom:"50px"}}>
-                        <ProfileImage src = {friend.profile} height="80" width="80" pictureSize="80" style={{marginLeft:"40px"}}/>
-                        <h1 style={{margin: "40px auto auto 30px"}}>{friend.name}</h1>
+                    <div style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}>
+                        <ProfileImage src={friend.profile} height="80" width="80" pictureSize="80" style={{ marginLeft: "40px" }} />
+                        <h1 style={{ margin: "40px auto auto 30px" }}>{friend.name}</h1>
                     </div>
                     <Dialog ref={scrollRef}>
-                    <Datebox>{date}</Datebox>
-                    {friend.chattings?.map((message, i) => {
-                        let flag = false;
-                        if(date !== message.date){
-                            flag = true;
-                            date = message.date;
-                        }
-                        return(
-                            <div>
-                                {flag? <Datebox>{date}</Datebox> : null}
-                                {message.isMe?
-                                <div style={{display:"inline-block", width:"100%", textAlign:"right"}}> 
-                                    <p style={{display:"inline-block", fontSize:"10px"}}>{message.time}</p>
-                                <Me style={{display:"inline-block"}}>
-                                    {message.content}
-                                </Me>
+                        <Datebox>{date}</Datebox>
+                        {friend.chattings?.map((message, i) => {
+                            let flag = false;
+                            if (date !== message.date) {
+                                flag = true;
+                                date = message.date;
+                            }
+                            return (
+                                <div>
+                                    {flag ? <Datebox>{date}</Datebox> : null}
+                                    {message.isMe ?
+                                        <div style={{ display: "inline-block", width: "100%", textAlign: "right" }}>
+                                            <p style={{ display: "inline-block", fontSize: "10px" }}>{message.time}</p>
+                                            <Me style={{ display: "inline-block" }}>
+                                                {message.content}
+                                            </Me>
+                                        </div>
+                                        :
+                                        <div style={{ display: "inline-block" }}>
+                                            <You style={{ display: "inline-block" }}>
+                                                {message.content}
+                                            </You>
+                                            <p style={{ display: "inline-block", fontSize: "10px" }}>{message.time}</p>
+                                        </div>}
                                 </div>
-                                :
-                                <div style={{display:"inline-block"}}>
-                                <You style={{display:"inline-block"}}>
-                                    {message.content}
-                                </You>
-                                <p style={{display:"inline-block", fontSize:"10px"}}>{message.time}</p>
-                                </div>}
-                            </div>
-                        )})}
+                            )
+                        })}
                     </Dialog>
-                    <div style={{display:"flex", flexDirection:"row"}}>
-                    <InputHere value = {mymessage} onChange={onInputChange} onKeyPress={onKeyPress} ref={focus}/>
-                    <Button onClick={onSend} onKeyPress={onKeyPress}>send</Button>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                        <InputHere value={mymessage} onChange={onInputChange} onKeyPress={onKeyPress} ref={focus} />
+                        <Button onClick={onSend} onKeyPress={onKeyPress}>send</Button>
                     </div>
-                    <br/><br/><br/><br/><br/><br/>
+                    <br /><br /><br /><br /><br /><br />
                 </Content>
             </Row>
         </div>
