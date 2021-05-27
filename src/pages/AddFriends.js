@@ -96,7 +96,7 @@ const MenuButton = styled.button`
 const InputHere = styled.input`
  border-radius: 10px;
  border: 2px solid #646568;
- color: #b6b7b8;
+ color: black;
  font-family: inherit;
  font-size: 1rem;
  padding: 1rem;
@@ -136,6 +136,12 @@ const Button = styled.button`
 
 
 function AddFriends() {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
+    let date = ("0" + today.getDate()).slice(-2);
+    let hour = today.getHours();
+    let minute = today.getMinutes();
     const history = useHistory();
     const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     const dispatch = useDispatch();
@@ -155,6 +161,10 @@ function AddFriends() {
         name: '',
         profile: '',
         chattings: [{
+            isMe: false,
+            date: year + "-" + month + "-" + date,
+            time: hour + ":" + minute,
+            content: "Friend's request has been accepted."
         }]
     });
 

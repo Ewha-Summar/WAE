@@ -165,9 +165,10 @@ function handleTodos(state = plan, action) {
             }
         case ADDFRIEND:
             const tmpFriends = state.friends.concat(action.todo);
+
             return {
                 ...state,
-                friends: tmpFriends
+                friends: tmpFriends,
             }
         case DELETEPLAN:
             let count = 0;
