@@ -50,7 +50,6 @@ function Header() {
         <Wrapper>
             <img src={logo} style={{ height: "200px", marginTop: "-63px" }} onClick={() => { history.push('/') }} />
             <InputHere type="text" placeholder="Find Your Friends"></InputHere>
-            <Button1 src={alarm} onClick={() => history.push("/alarm")}></Button1>
             <Button2 src={add} onClick={() => history.push("/addfriends")}></Button2>
         </Wrapper>
     );

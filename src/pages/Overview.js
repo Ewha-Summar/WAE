@@ -173,6 +173,7 @@ function Overivew() {
                                 {
                                     todos?.map((todo, i) => {
                                         if (j < 1 && todo.date === day) {
+                                            window.localStorage.setItem("date", todo.date + " " + todo.starttime);
                                             return (
                                                 <Warn>
                                                     <h2 style={{ color: "black" }}>{"[" + todo.date + "] "} {todo.content}</h2> <div></div>

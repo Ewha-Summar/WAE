@@ -1,7 +1,7 @@
 import Header from "../component/Header"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-
+import { useSelector, useDispatch } from 'react-redux';
 const Row = styled.div`
     display:flex;
     flex-direction: row;
@@ -105,15 +105,56 @@ width:750px;
 height:100px;
 margin-bottom: 50px;
 `
+var timer;
+var seconds;
+var minutes;
+var hours;
+var days;
+var compareDate = new Date();
+compareDate.setDate(window.localStorage.getItem("date")); //just for this demo today + 7 days
+
+timer = setInterval(function () {
+    timeBetweenDates(compareDate);
+}, 1000);
+function timeBetweenDates(toDate) {
+    var dateEntered = toDate;
+    var now = new Date();
+    var difference = dateEntered.getTime() - now.getTime();
+
+    if (difference <= 0) {
+        // Timer done
+        clearInterval(timer);
+
+    } else {
+
+        seconds = Math.floor(difference / 1000);
+        minutes = Math.floor(seconds / 60);
+        hours = Math.floor(minutes / 60);
+        days = Math.floor(hours / 24);
+
+        hours %= 24;
+        minutes %= 60;
+        seconds %= 60;
+
+
+    }
+}
 
 function Alarm() {
     const history = useHistory();
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
+    const dispatch = useDispatch();
+    var now = new Date();
+    console.log(now);
+
+
     return (
+
         <div>
             <Header></Header>
             <Row>
                 <Profile>
-                    <ProfileImage ></ProfileImage>
+                    <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
                     <h3 style={{ color: "#24292e" }}>25 Friends</h3>
@@ -132,8 +173,12 @@ function Alarm() {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
 
-                    <h2 style={{ color: "red", marginLeft: "10px" }}>Alarm</h2>
-                    <Warn></Warn>
+                    <h2 style={{ color: "red", marginLeft: "10px" }}>CountDown</h2>
+                    <Warn>
+                        {days}일 {hours}시간 {seconds}초
+
+                    </Warn>
+
 
                 </Content>
             </Row>
