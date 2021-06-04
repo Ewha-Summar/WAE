@@ -97,7 +97,7 @@ height:100px;
 margin-bottom: 50px;
 `
 const Warn = styled.div`
-border: 2px solid red;
+border: 4px solid red;
 border-radius: 10px;
 box-shadow: rgba(23, 25, 29, 0.3) 0 2px 10px;
 display: flex;
@@ -111,6 +111,7 @@ function Overivew() {
     const history = useHistory();
     const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     const { todos, date } = useSelector((plan) => ({ todos: plan.todos, date: plan.date }));
+    let length = friends.length;
     const dispatch = useDispatch();
 
     console.log(todos);
@@ -122,7 +123,7 @@ function Overivew() {
                     <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
-                    <h3 style={{ color: "#24292e" }}>25 Friends</h3>
+                    <h3 style={{ color: "#24292e" }}>{length} Friends</h3>
                     <Line />
                     <LittleRow>
                         <Group>HCI</Group>
@@ -138,6 +139,31 @@ function Overivew() {
                         <MenuButton onClick={() => history.push("/chatting")}>Chatting</MenuButton>
                     </LittleRow>
                     <Line width={850} />
+                    <h2 style={{ color: "red", marginLeft: "10px" }}>!!Alarm!!</h2>
+                    <LittleRow>
+                        {date?.map((day, j) => {
+                            return (<>
+                                {
+                                    todos?.map((todo, i) => {
+                                        if (j < 1 && todo.date === day) {
+                                            window.localStorage.setItem("date", todo.date + " " + todo.starttime);
+                                            return (
+                                                <Warn>
+                                                    <h2 style={{ color: "black" }}>{"[" + todo.date + "] "} {todo.content}</h2> <div></div>
+                                                    <h3>{todo.place}</h3> <div>
+                                                    </div>
+                                                    {todo.starttime + "~" + todo.endtime}
+                                                </Warn>
+                                            );
+                                        }
+
+                                    })
+                                }
+                            </>);
+
+
+                        })}
+                    </LittleRow>
                     <h2 style={{ color: "#24292e", marginLeft: "10px" }}>Upcoming Schedule</h2>
                     <LittleRow>
                         {date?.map((day, i) => {
@@ -166,31 +192,7 @@ function Overivew() {
 
 
                     </LittleRow>
-                    <h2 style={{ color: "red", marginLeft: "10px" }}>Alarm</h2>
-                    <LittleRow>
-                        {date?.map((day, j) => {
-                            return (<>
-                                {
-                                    todos?.map((todo, i) => {
-                                        if (j < 1 && todo.date === day) {
-                                            window.localStorage.setItem("date", todo.date + " " + todo.starttime);
-                                            return (
-                                                <Warn>
-                                                    <h2 style={{ color: "black" }}>{"[" + todo.date + "] "} {todo.content}</h2> <div></div>
-                                                    <h3>{todo.place}</h3> <div>
-                                                    </div>
-                                                    {todo.starttime + "~" + todo.endtime}
-                                                </Warn>
-                                            );
-                                        }
 
-                                    })
-                                }
-                            </>);
-
-
-                        })}
-                    </LittleRow>
 
                 </Content>
             </Row>

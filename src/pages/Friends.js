@@ -127,7 +127,7 @@ function Friends() {
                     <ProfileImage src={url}></ProfileImage>
                     <h2 style={{ color: "#24292e" }}>Ahyeon Joung</h2>
                     <GrayButton>Edit Profile</GrayButton>
-                    <h3 style={{ color: "#24292e" }}>25 Friends</h3>
+                    <h3 style={{ color: "#24292e" }}>{friends.length} Friends</h3>
                     <Line />
                     <LittleRow>
                         <Group>HCI</Group>

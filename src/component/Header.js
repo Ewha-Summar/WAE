@@ -3,7 +3,7 @@ import logo from "../asset/logo.png"
 import alarm from "../asset/alram.PNG"
 import add from "../asset/add.PNG"
 import { useHistory } from "react-router-dom";
-
+import { useSelector, useDispatch } from 'react-redux';
 const Wrapper = styled.div`
     background-color: #24292e;
     height:70px;
@@ -46,10 +46,10 @@ right:30px;
 
 function Header() {
     const history = useHistory();
+    const { friends, url } = useSelector((plan) => ({ friends: plan.friends, url: plan.profile }));
     return (
         <Wrapper>
             <img src={logo} style={{ height: "200px", marginTop: "-63px" }} onClick={() => { history.push('/') }} />
-            <InputHere type="text" placeholder="Find Your Friends"></InputHere>
             <Button2 src={add} onClick={() => history.push("/addfriends")}></Button2>
         </Wrapper>
     );
